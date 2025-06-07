@@ -1,0 +1,17 @@
+services:
+  outline-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PORT:-6060}:6060"
+    environment:
+      - OUTLINE_API_KEY=${OUTLINE_API_KEY}
+      - OUTLINE_API_URL=${OUTLINE_API_URL:-https://app.getoutline.com/api}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6060/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
