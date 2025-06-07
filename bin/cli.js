@@ -38,6 +38,8 @@ const gateway = spawn('npx', [
   'supergateway',
   '--port',
   port.toString(),
+  '--baseUrl',
+  'http://0.0.0.0:' + port.toString(),
   '--stdio',
   `node ${serverPath}`
 ], {
@@ -54,4 +56,4 @@ process.on('SIGINT', () => {
 gateway.on('close', (code) => {
   console.log('outline-mcp-server exited with code', code);
   process.exit(code);
-}); 
+});
